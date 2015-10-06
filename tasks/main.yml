@@ -1,0 +1,46 @@
+---
+# tasks file for ansible-xwiki-war
+
+- name: ensure custom facts directory exists
+  file: 
+    path: "/etc/ansible/facts.d"
+    recurse: "yes"
+    state: "directory"
+    
+- name: Assert supported platform (Verification que la plateform fait partie des plateformes supporter)
+  tags: util
+  assert:
+    that:
+      - ansible_os_family in util_supported_os_families
+      - ansible_distribution in util_supported_os_distributions
+
+- name: Include OS specific vars (Ajout des variables specifique a la famille de system d exploitation)
+  tags: util
+  include_vars: "{{ ansible_distribution }}.yml"
+
+- name: Include OS specific vars (Ajout des variables specifique a la distribution)
+  tags: util
+  include_vars: "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+
+- name: Assert role configuration (Verification de l etat du systeme de depart)
+  tags: util
+  assert:
+    that:
+      - util_package_state in util_package_states
+      - util_init_system|default(util_init_system_default) in util_init_systems
+        
+- name: Install Ansible module dependencies (Installation des dependances modules) 
+  tags: util
+  become: true
+  with_flattened:
+    - util_package_list_ansible_deps
+    - util_package_list_custom
+  action: "{{ ansible_pkg_mgr }} state={{ util_package_state }} name={{ item }}"
+
+- include: "xwiki-http-{{ ansible_os_family }}.yml"
+  tags : utils  
+  when: use_apache2_reverse_proxy == true 
+
+- include: "xwiki-xctrl-{{ ansible_os_family }}.yml"
+  tags : utils  
+  when: use_xctrl == true 

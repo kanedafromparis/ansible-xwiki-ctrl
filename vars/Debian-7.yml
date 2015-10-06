@@ -1,0 +1,66 @@
+---
+util_package_state: "{{ util_package_state_debian }}"
+
+util_package_states:
+  - installed
+  - latest
+  - absent
+
+util_package_list_ansible_deps:
+  - curl
+  - apache2
+  
+xwiki_ctrl_git_URL_default: "-b for-tomcat-deb https://github.com/kanedafromparis/xwiki-ctrl.git"
+use_apache2_reverse_proxy_default: true 
+use_xctrl_default: true
+
+xwiki_ctrl_www_module_default:
+  - vhost_alias
+  - proxy 
+  - proxy_http 
+  - rewrite 
+  - deflate 
+  - headers 
+  - proxy_balancer 
+  - proxy_connect 
+  # on debian 8 - proxy_html
+
+#Xinit configurations 
+
+xctrl_send_mail_notification_default: "no"
+
+xctrl_mysql_user_default: "root"
+xctrl_mysql_password_default: ""
+xctrl_mysql_host_default: "localhost"
+xctrl_spam_threshold_default: "50"
+xctrl_daemons_to_monitor_default: "java mysqld apache2"
+
+xctrl_xwiki_install_dir_default: "/usr/local/xwiki"
+xctrl_var_dir_default: "/var/run/xinit"
+xctrl_maintenance_on_restarts_default: "0"
+xctrl_maintenance_time_default: "600"
+xctrl_maintenance_reminder_default: "1"
+xctrl_maintenance_reminder_period_default: "3600"
+xctrl_clean_temp_on_startup_default: "1"
+xctrl_threaddump_analysis_file_default: "/var/tmp/xinit_thread_dump"
+xctrl_make_first_request_default: "no"
+xctrl_check_http_default: "no"
+xctrl_expect_http_response_code_default: "200,400"
+xctrl_use_dns_default: "no"
+xctrl_check_http_url_default: "http://127.0.0.1:8080/xwiki"
+
+xctrl_process_check_default: "no"
+xctrl_name_default: "tomcat7"
+xctrl_tomcat_home_default: "/var/lib/tomcat7"
+xctrl_tomcat_script_default: "/etc/init.d/tomcat7"
+xctrl_java_home_default: "/usr/lib/jvm/java-7-openjdk-amd64"
+xctrl_catalina_pid_default: "/var/tmp/catalina.pid"
+xctrl_mem_start_default: "128m"
+
+xctrl_mem_max_default: "1024m"
+xctrl_max_perm_size_default: "256m"
+xctrl_tomcat_user_default: "tomcat7"
+
+xctrl_catalina_opts_default: "-server -Xms{{xctrl_mem_start}} -Xmx{{xctrl_mem_max}} -XX:MaxPermSize={{xctrl_max_perm_size}} -Dfile.encoding=utf-8 -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true"
+
+

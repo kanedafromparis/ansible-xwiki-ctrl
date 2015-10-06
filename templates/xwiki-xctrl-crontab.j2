@@ -1,0 +1,7 @@
+# /etc/cron.d/xinit: xinit entries for the xinit (xctrl) programme
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+*/1 * * * * /etc/init.d/xwiki.sh check-proc >/dev/null 2>&1
+*/5 * * * * /etc/init.d/xwiki.sh check-http >/dev/null 2>&1

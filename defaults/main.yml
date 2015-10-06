@@ -1,0 +1,62 @@
+---
+# defaults file for ansible-xwiki-ctrl
+util_package_state_debian: installed  # ['installed', 'latest', 'absent']
+util_package_list_custom: []
+
+xwiki_ctrl_git_URL: "{{xwiki_ctrl_git_URL_default}}"
+
+use_apache2_reverse_proxy : "{{use_apache2_reverse_proxy_default}}" 
+use_xctrl: "{{use_xctrl_default}}"
+
+xwiki_ctrl_www_module : "{{xwiki_ctrl_www_module_default}}"
+
+xwiki_www_fqdn : 
+ - www.example.com
+ - sample.xwiki.org 
+
+# they have to be in the files/ area
+xwiki_www_SSL_fqdn : []
+# xwiki_www_SSL_fqdn :
+#  - "www.example.com" :
+#     "name" : "www.example.com"
+#     "SSLCertificateKeyFile" : "star.www.example.com.key"
+#     "SSLCertificateFile" : "star.www.example.com.crt"
+#     "SSLCertificateChainFile" : "sslca.ca"
+
+xctrl_send_mail_notification: "{{xctrl_send_mail_notification_default}}"
+                                                                                                                                                                                            
+xctrl_mysql_user: "{{xctrl_mysql_user_default}}"
+xctrl_mysql_password: "{{xctrl_mysql_password_default}}"
+xctrl_mysql_host: "{{xctrl_mysql_host_default}}"
+xctrl_spam_threshold: "{{xctrl_spam_threshold_default}}"
+xctrl_daemons_to_monitor: "{{xctrl_daemons_to_monitor_default}}"
+
+xctrl_xwiki_install_dir: "{{xctrl_xwiki_install_dir_default}}"
+xctrl_var_dir: "{{xctrl_var_dir_default}}"
+xctrl_maintenance_on_restarts: "{{xctrl_maintenance_on_restarts_default}}"
+xctrl_maintenance_time: "{{xctrl_maintenance_time_default}}"
+xctrl_maintenance_reminder: "{{xctrl_maintenance_reminder_default}}"
+xctrl_maintenance_reminder_period: "{{xctrl_maintenance_reminder_period_default}}"
+xctrl_clean_temp_on_startup: "{{xctrl_clean_temp_on_startup_default}}"
+xctrl_threaddump_analysis_file: "{{xctrl_threaddump_analysis_file_default}}"
+xctrl_make_first_request: "{{xctrl_make_first_request_default}}"
+xctrl_check_http: "{{xctrl_check_http_default}}"
+xctrl_expect_http_response_code: "{{xctrl_expect_http_response_code_default}}"
+xctrl_use_dns: "{{xctrl_use_dns_default}}"
+xctrl_check_http_url: "{{xctrl_check_http_url_default}}"
+                                          
+xctrl_process_check: "{{xctrl_process_check_default}}"
+xctrl_name: "{{xctrl_name_default}}"
+xctrl_tomcat_home: "{{xctrl_tomcat_home_default}}"
+xctrl_tomcat_script: "{{xctrl_tomcat_script_default}}"
+
+xctrl_java_home: "{{xctrl_java_home_default}}"
+xctrl_catalina_pid: "{{xctrl_catalina_pid_default}}"
+xctrl_mem_start: "{{xctrl_mem_start_default}}"
+                                  
+xctrl_mem_max: "{{xctrl_mem_max_default}}"
+xctrl_max_perm_size: "{{xctrl_max_perm_size_default}}"
+xctrl_tomcat_user: "{{xctrl_tomcat_user_default}}"
+
+xctrl_catalina_opts: "{{xctrl_catalina_opts_default}}"
+

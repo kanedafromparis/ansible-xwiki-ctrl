@@ -1,0 +1,33 @@
+---
+# handlers file for ansible-xwiki-ctrl
+- name: start apache
+  become: true
+  service: 
+    name: apache2
+    state: start
+
+- name: stop apache
+  become: true
+  service: 
+    name: apache2
+    state: stop
+    
+- name: reload apache
+  become: true
+  service: 
+    name: apache2
+    state: reload
+
+- name: stop xwiki
+  become: true
+  ignore_errors: yes
+  service: 
+    name: xwiki.sh
+    state: stop
+
+- name: start xwiki
+  become: true
+  ignore_errors: yes
+  service: 
+    name: xwiki.sh
+    state: start
