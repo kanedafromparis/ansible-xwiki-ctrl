@@ -50,7 +50,7 @@ xctrl_name: "{{xctrl_name_default}}"
 xctrl_tomcat_home: "{{xctrl_tomcat_home_default}}"
 xctrl_tomcat_script: "{{xctrl_tomcat_script_default}}"
 
-xctrl_java_home: "{{xctrl_java_home_default}}"
+xctrl_java_home: "{{java_folder|default(ansible_local.xwiki_jdk.jdk.java_folder)}}/{{java_alias|default(ansible_local.xwiki_jdk.jdk.java_alias)}}"
 xctrl_catalina_pid: "{{xctrl_catalina_pid_default}}"
 xctrl_mem_start: "{{xctrl_mem_start_default}}"
                                   
