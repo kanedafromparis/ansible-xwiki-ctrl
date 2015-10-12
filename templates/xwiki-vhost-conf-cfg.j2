@@ -1,0 +1,31 @@
+<VirtualHost *:80>
+    ServerName {{item}}
+    ServerAlias {{item}}
+
+
+    ErrorLog /var/log/apache2/xwiki-{{item}}-error.log
+    CustomLog /var/log/apache2/xwiki-{{item}}-access.log combined
+
+    RedirectMatch ^/$ /xwiki/bin/view/Main/WebHome
+    RedirectMatch ^/xwiki/$ /xwiki/bin/view/Main/WebHome
+    DocumentRoot /var/www/
+
+    ProxyErrorOverride On
+    ProxyPass /skol/ !
+    ErrorDocument 503 /skol/error.html
+
+    <Location /xwiki/rest>
+         RequestHeader unset Authorization
+    </Location>
+
+    ProxyRequests Off
+    <Proxy *>
+        Order deny,allow
+        Allow from all
+    </Proxy>
+    ProxyPreserveHost On
+    ProxyPass /xwiki http://localhost:8080/xwiki retry=5
+    ProxyPassReverse /xwiki http://localhost:8080/xwiki
+    ProxyPass /manager http://localhost:8080/manager
+
+</VirtualHost>

@@ -1,0 +1,48 @@
+---
+- name : check apache service
+  become: true
+  apt: 
+    name: "apache2" 
+    update_cache: yes 
+    cache_valid_time: "{{util_package_cache_valid_time | default(3600)}}"
+    state: "latest"
+
+- name: enabled needed modules
+  become: true 
+  apache2_module: 
+    name: "{{item}}"
+    state: "present"
+  with_items: "{{xwiki_ctrl_www_module}}"   
+
+- name : create virtual host
+  become: true 
+  template:
+      src: "xwiki-vhost-conf-cfg.j2"
+      dest: "/etc/apache2/sites-available/{{item}}"
+  with_items: "{{xwiki_www_fqdn}}"
+  
+- name : create virtual ssl host
+  become: true 
+  template:
+      src: "xwiki-ssl-vhost-conf-cfg.j2"
+      dest: "/etc/apache2/sites-available/{{item}}"
+  with_items: "{{xwiki_www_SSL_fqdn}}"
+
+- name: remove existing site
+  become: true
+  command: "rm /etc/apache2/sites-enabled/*"
+  ignore_errors: yes
+
+- name: Apache | Virtualhost add | Activate virtual host $vhost
+  become: true
+  command: "/usr/sbin/a2ensite {{item}}"
+  with_items: "{{xwiki_www_fqdn}}"
+  notify:
+  - apache-reload
+
+- name: Apache | Virtualhost add | Activate virtual host $vhost
+  become: true
+  command: "/usr/sbin/a2ensite {{item}}"
+  with_items: "{{xwiki_www_SSL_fqdn}}"
+  notify:
+  - apache-reload

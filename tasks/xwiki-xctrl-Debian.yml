@@ -1,0 +1,48 @@
+---
+- name: remove tomcat has a service
+  command: "update-rc.d tomcat7 remove"
+  ignore_errors: yes
+  notify:
+  - stop tomcat
+  
+- name: Get Xinit (Xwiki-crtl) from git-hub
+  git: 
+    repo: "https://github.com/kanedafromparis/xwiki-ctrl"
+    dest: "/tmp/xwiki-ctrl"
+    version: "for-tomcat-deb"
+       
+
+- name: bash install Xinit (Xwiki-crtl) from git-hub
+  become: true
+  command: "bash /tmp/xwiki-ctrl/install.sh --install"
+  args:
+    chdir: "/tmp/xwiki-ctrl"
+     
+- name: set the xinit config (configuré Xinit)
+  become: true
+  template:
+     src: "xwiki-xctrl-cfg.j2"
+     dest: "/etc/xwiki-ctrl/xwiki-ctrl.cfg"
+
+- name: set the xinit crontab (active le crontab de xinit)
+  become: true
+  template:
+    src: "xwiki-xctrl-crontab.j2"
+    dest: "/etc/cron.d/xwiki-xctrl"
+
+- name: set xwiki.sh has a service
+  become: true
+  command: "update-rc.d xwiki.sh defaults"
+  notify:
+  - start xwiki.sh
+
+# this might no be a good idea due to the distribution wizard
+- name: check that the xwiki server is up (attend que le serveur xwiki soit demarre)
+  become: true  
+  wait_for: 
+    host: "0.0.0.0"
+    port: "8080" 
+    delay: 100
+    state: "drained"
+  
+
